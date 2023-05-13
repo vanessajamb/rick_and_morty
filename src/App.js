@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+//importaciones comunes
+import { useState } from 'react';
+import axios from 'axios';
+//estilos
 import './App.css';
+//Componentes
+import Cards from './components/Cards.jsx';
+import NavBar from './components/NavBar/NavBar';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+   const [characters, setCharacters]=useState([]);
+
+   function onSearch(id) {
+      axios(`https://rickandmortyapi.com/api/character/${id}`).then(({ data }) => {
+         if (data.name) {
+            setCharacters((oldChars) => [...oldChars, data]);
+         } else {
+            window.alert('¡No hay personajes con este ID!');
+         }
+      });
+   }
+   
+   const onClose = (id)=>{
+      //const charactersFiltered = characters.filter((char)=> char.id !== id)
+      setCharacters(characters.filter((char)=> char.id !== Number(id)))
+   }
+   return (
+      <div className='App'>
+         {/*<SearchBar onSearch={(characterID) => window.alert(characterID)} />*/}
+         <NavBar onSearch={onSearch}/> 
+         <Cards characters={characters} onClose={onClose}/>
+      </div>
+   );
+};
+
+   
+
+
 
 export default App;

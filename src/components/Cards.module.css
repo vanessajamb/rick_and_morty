@@ -1,0 +1,7 @@
+.mainDiv{
+    width: 100%;
+    display:flex;
+    flex-wrap: wrap;
+    /*overflow: hidden;*/ /* ordeno imagenes y letras */
+    justify-content: space-around;
+}
